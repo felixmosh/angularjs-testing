@@ -1,17 +1,7 @@
-<header>
-  <nav>
-    <a ui-sref="home" data-hook="nav-home-link">Home</a>
-    <a ui-sref="about" data-hook="nav-about-link">About</a>
-  </nav>
+<header ng-class="{'is-minimized': $ctrl.isOnMovieDetails()}">
+  <h1 class="title"><img src="/img/logo.png" width="96" height="96">Movies App</h1>
 </header>
-<main>
-  <h1 class="title">Hello from Angular !</h1>
-
-  <!-- Images (and assets) are parsed and loaded from within the public directory -->
-  <img src="/img/logo.png" width="200" height="200">
-
-  <div ui-view class="main-content"></div>
-</main>
+<main ui-view></main>
 <footer>
-  <a ng-href="{{app.url}}">Webpack Angular Starter</a>
+  <a href="https://github.com/dsebastien/angularjs-webpack-starter" target="_blank">Based on Webpack Angular Starter</a>
 </footer>

@@ -1,11 +1,11 @@
 import angular from 'angular';
-import {AboutModule} from './about';
 import {AppComponent} from './app/app';
-import {HomeModule} from './home';
+import {CommonModule} from './common';
+import {MoviesModule} from './movies';
 
 angular
   .module('app', [
-    HomeModule,
-    AboutModule
+    CommonModule,
+    MoviesModule
   ])
   .component('app', AppComponent);
