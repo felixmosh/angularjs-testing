@@ -11,6 +11,7 @@ angular
     MoviesModule
   ])
   .component('app', AppComponent)
+  .service('googleAnalytics', () => window.googleAnalytics)
   .config(($stateProvider, $urlRouterProvider) => {
     $urlRouterProvider.otherwise('/');
     $stateProvider

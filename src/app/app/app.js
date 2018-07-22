@@ -3,8 +3,13 @@ import template from './app.html';
 
 
 class AppController {
-  constructor($state) {
+  constructor($state, googleAnalytics) {
     this.$state = $state;
+    this.googleAnalytics = googleAnalytics;
+  }
+
+  $onInit() {
+    this.googleAnalytics.trackLoad('app-loaded');
   }
 
   isOnMovieDetails() {
