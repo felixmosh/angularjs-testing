@@ -1,31 +1,42 @@
-describe('App', () => {
+function elementByDataHook(hook) {
+  return $(`[data-hook="${hook}"]`);
+}
+
+function elementsByDataHook(hook) {
+  return $$(`[data-hook="${hook}"]`);
+}
+
+function waitForElement(element, timeout = 1000, optionalMessage) {
+  return browser.wait(function () {
+    return element.isPresent().then(function (isPresent) {
+      if (isPresent) {
+        return element.isDisplayed();
+      }
+      else {
+        return false;
+      }
+    });
+  }, timeout, optionalMessage);
+}
+
+describe('Movies App', () => {
 
   beforeEach(() => {
     browser.get('/');
+    waitForElement(elementByDataHook('movie-list-title'));
   });
 
   it('should have a title', () => {
-    expect(browser.getTitle()).toEqual('Angular App');
+    expect(browser.getTitle()).toEqual('Movies App');
   });
 
-  it('should have <header>', () => {
-    expect(element(by.css('app header')).isPresent()).toEqual(true);
-  });
-
-  it('should have <main>', () => {
-    expect(element(by.css('app main')).isPresent()).toEqual(true);
-  });
-
-  it('should have a main title', () => {
-    expect(element(by.css('.title')).getText()).toEqual('Hello from Angular !');
-  });
-
-  it('should have <footer>', () => {
-    expect(element(by.css('app footer')).getText()).toEqual('Webpack Angular Starter');
-  });
-
-  it('should navigate to about page', () => {
-    element(by.css('[data-hook="nav-about-link"]')).click();
-    expect(element(by.css('[data-hook="about-title"]')).getText()).toEqual('About Works too!');
+  it('should make a happy flow', () => {
+    const secondMovie = elementsByDataHook('movie').get(1);
+    secondMovie.$('[data-hook="title"]')
+      .getText()
+      .then(movieTitleInTheMainPage => {
+        secondMovie.click();
+        expect(elementByDataHook('title').getText()).toContain(movieTitleInTheMainPage);
+      });
   });
 });
