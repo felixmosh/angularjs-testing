@@ -2,21 +2,44 @@ import {MoviesServiceDriver} from './movies.srv.driver';
 
 describe('Movies Service', () => {
   let driver;
-  let movieList;
+  let movie;
 
   beforeEach(() => {
     driver = new MoviesServiceDriver();
+    movie = {id: 123, title: 'terminator', release_date: '2018-10-10'};
     driver
-      .given.movieList(movieList = [{title: 'terminator', id: 1000}])
+      .given.movieList([movie])
       .when.created();
   });
 
-  it('should fetch movie info by movie name', () => {
-    let movieInfo;
-    driver.service.getMovieByName(movieList[0].title)
-      .then((_movieInfo) => movieInfo = _movieInfo);
-    driver.when.flush();
+  describe('getTopMovies', () => {
+    let movies;
 
-    expect(movieInfo).toEqual(movieList);
+    beforeEach(() => {
+      driver.service.loadTopMovies()
+        .then((_movies) => {
+          movies = _movies;
+        });
+      driver.when.flush();
+    });
+
+    it('should fetch top movies', () => {
+      expect(movies.length).toBe(1);
+      expect(movies[0]).toEqual(jasmine.objectContaining(movie));
+    });
+
+    it('should attach year from release_date', () => {
+      expect(movies[0].year).toEqual('2018');
+    });
+  });
+
+  describe('getMovieById', () => {
+    it('should get movie by id', () => {
+      driver.service.getMovieById(movie.id).then((_movie) => {
+        expect(_movie).toEqual(jasmine.objectContaining(movie));
+      });
+
+      driver.when.flush();
+    });
   });
 });

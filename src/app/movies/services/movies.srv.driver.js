@@ -24,7 +24,7 @@ export class MoviesServiceDriver {
   given = {
     movieList: (list) => {
       angular.mock.inject(($httpBackend) => {
-        $httpBackend.whenGET(/.*\/discover\/movie/g).respond(() => {
+        $httpBackend.whenGET(/\/discover\/movie/).respond(() => {
           return [200, {page: 1, total_results: 1000, total_pages: 10, results: list}];
         });
       });
