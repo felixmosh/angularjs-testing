@@ -1,27 +1,29 @@
-import {MoviesServiceDriver} from './movies.srv.driver';
+import 'angular-mocks';
+import {CommonModule} from '../../common';
+import {MoviesModule} from '../index';
 
 describe('Movies Service', () => {
-  let driver;
+  let service;
   let movie;
 
-  beforeEach(() => {
-    driver = new MoviesServiceDriver();
+  beforeEach(() => angular.mock.module(MoviesModule, CommonModule));
+
+  beforeEach(angular.mock.inject((moviesService, $httpBackend) => {
     movie = {id: 123, title: 'terminator', release_date: '2018-10-10'};
-    driver
-      .given.movieList([movie])
-      .when.created();
-  });
+    service = moviesService;
+    $httpBackend.whenGET(/\/discover\/movie/).respond({page: 1, total_results: 1000, total_pages: 10, results: [movie]});
+  }));
 
   describe('getTopMovies', () => {
     let movies;
 
-    beforeEach(() => {
-      driver.service.loadTopMovies()
+    beforeEach(angular.mock.inject(($httpBackend) => {
+      service.loadTopMovies()
         .then((_movies) => {
           movies = _movies;
         });
-      driver.when.flush();
-    });
+      $httpBackend.flush();
+    }));
 
     it('should fetch top movies', () => {
       expect(movies.length).toBe(1);
@@ -34,12 +36,11 @@ describe('Movies Service', () => {
   });
 
   describe('getMovieById', () => {
-    it('should get movie by id', () => {
-      driver.service.getMovieById(movie.id).then((_movie) => {
+    it('should get movie by id', angular.mock.inject(($httpBackend) => {
+      service.getMovieById(movie.id).then((_movie) => {
         expect(_movie).toEqual(jasmine.objectContaining(movie));
       });
-
-      driver.when.flush();
-    });
+      $httpBackend.flush();
+    }));
   });
 });
