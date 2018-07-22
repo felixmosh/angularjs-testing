@@ -167,6 +167,16 @@ module.exports = function makeWebpackConfig() {
     )
   }
 
+  if (isTest) {
+    config.plugins.push(
+      new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
+      })
+    );
+  }
+
   // Add build specific plugins
   if (isProd) {
     config.plugins.push(

@@ -8,6 +8,7 @@ module.exports = function (wallaby) {
     debug: true,
     files: [
       'node_modules/babel-polyfill/browser.js',
+      'node_modules/jquery/dist/jquery.slim.js',
       {pattern: 'src/**/*.html', load: false},
       {pattern: 'src/**/*.css', load: false},
       {pattern: 'src/**/*.js', load: false},

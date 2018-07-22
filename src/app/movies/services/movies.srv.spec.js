@@ -35,9 +35,11 @@ describe('Movies Service', () => {
 
   describe('getMovieById', () => {
     it('should get movie by id', () => {
-      driver.service.getMovieById(movie.id).then((_movie) => {
-        expect(_movie).toEqual(jasmine.objectContaining(movie));
-      });
+      driver.service.loadTopMovies()
+        .then(() => driver.service.getMovieById(movie.id))
+        .then((_movie) => {
+          expect(_movie).toEqual(jasmine.objectContaining(movie));
+        });
 
       driver.when.flush();
     });
