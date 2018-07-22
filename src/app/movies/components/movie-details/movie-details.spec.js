@@ -1,6 +1,6 @@
 import {MovieDetailsDriver} from './movie-details.driver';
 
-describe('Component: movie details', () => {
+describe('Component: movie-details', () => {
   let driver;
   let movie;
 

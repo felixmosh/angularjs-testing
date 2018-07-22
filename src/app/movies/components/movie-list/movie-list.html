@@ -3,12 +3,14 @@
 <input type="text" ng-model="$ctrl.filterBy" ng-model-options="{ debounce: 200 }" class="input" placeholder="Filter movies by title...">
 
 <ul ng-class="{'is-loading': $ctrl.movies.length === 0}" class="movie-list">
-	<li ng-if="$ctrl.movies.length" ng-repeat="movie in $ctrl.movies | filter: {title: $ctrl.filterBy} as results track by movie.id ">
+	<li ng-if="$ctrl.movies.length"
+		data-hook="movie"
+		ng-repeat="movie in $ctrl.movies | filter: {title: $ctrl.filterBy} as results track by movie.id ">
 		<a ui-sref="list.movie({id: movie.id})">
 			<figure>
 				<img ng-src="{{:: 'https://image.tmdb.org/t/p/w200' + movie.poster_path}}"/>
 				<small class="movie-rating">{{:: movie.vote_average}}</small>
-				<figcaption>{{:: movie.title}}</figcaption>
+				<figcaption data-hook="title">{{:: movie.title}}</figcaption>
 			</figure>
 		</a>
 	</li>

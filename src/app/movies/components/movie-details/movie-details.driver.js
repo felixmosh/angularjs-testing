@@ -3,8 +3,12 @@ import {CommonModule} from '../../../common';
 import {MoviesModule} from '../../index';
 
 export class MovieDetailsDriver {
-  constructor() {
-    angular.mock.module(MoviesModule, CommonModule);
+  constructor(component) {
+    if (component) {
+      this.component = component;
+    } else {
+      angular.mock.module(MoviesModule, CommonModule);
+    }
   }
 
   given = {
