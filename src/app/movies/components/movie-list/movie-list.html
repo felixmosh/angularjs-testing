@@ -3,7 +3,9 @@
 <input type="text"
 	   data-hook="filter-input"
 	   ng-model="$ctrl.filterBy"
-	   ng-model-options="{ debounce: 200 }" class="input" placeholder="Filter movies by title...">
+	   ng-model-options="{ debounce: 200 }"
+	   class="input"
+	   placeholder="Filter movies by title...">
 
 <ul ng-class="{'is-loading': $ctrl.movies.length === 0}" class="movie-list">
 	<li ng-if="$ctrl.movies.length"

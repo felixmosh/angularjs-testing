@@ -22,11 +22,20 @@ export class MovieListDriver {
         this.component = $compile(`<movie-list movies="movies"></movie-list>`)(scope);
         scope.$apply();
       });
+    },
+    filter: (movieName) => {
+      angular.mock.inject(($rootScope, $timeout) => {
+        this.get.filterInput().val(movieName).trigger('input');
+        $timeout.flush();
+        $rootScope.$apply();
+      });
+      return this;
     }
   };
 
   get = {
     list: () => this.component.find('[data-hook="movie"]'),
     movieItemDriver: (index) => new MovieDetailsDriver(angular.element(this.get.list().get(index))),
+    filterInput: () => this.component.find('[data-hook="filter-input"]')
   }
 }
